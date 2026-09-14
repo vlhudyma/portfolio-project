@@ -31,19 +31,20 @@ public class Paddle extends Actor
     public void act() 
     {
         tryChangeDirection();
-        setLocation(getX() + dx, getY());
+        //setLocation(getX() + dx, getY());
         operatePaddle();
     }    
     /**
      * operatePadle - The “left” and “right” keys operate the paddle.
      */
     private void operatePaddle(){
-        if(Greenfoot.isKeyDown("left")){
+        if(Greenfoot.isKeyDown("left")&& getX()>50){
             setLocation(getX()-6,getY());
     }
-        if(Greenfoot.isKeyDown("right")){
+        if(Greenfoot.isKeyDown("right")&& getX()<450){
             setLocation(getX()+6,getY());
     }
+        
     }
     /**
      * Will rotate the paddle 180 degrees if the paddle is at worlds edge.
@@ -67,6 +68,4 @@ width and height.
         GreenfootImage image = new GreenfootImage(width, height);
         setImage("paddle-cyan.jpg");
     }
-   
-
 }

@@ -18,6 +18,8 @@ public class Ball extends SmoothMover
     private boolean hasBouncedHorizontally;
     private boolean hasBouncedVertically;
     private int delay;
+    private boolean bounced = false;
+    private int bouncedCounter = 0;
 
     /**
      * Contructs the ball and sets it in motion!
@@ -50,10 +52,14 @@ public class Ball extends SmoothMover
         else
         {
             move(speed);
+            playWallSound();
+            playCeilingSound();
             checkBounceOffWalls();
             checkBounceOffCeiling();
+            playGameOverSound();
             checkRestart();
             bounceOfPaddle();
+            levelUp();
         }
     }    
 
@@ -64,6 +70,12 @@ public class Ball extends SmoothMover
     {
         return (getX() <= BALL_SIZE/2 || getX() >= getWorld().getWidth() - BALL_SIZE/2);
     }
+    private void playWallSound(){
+        if (isTouchingSides()){
+        
+        Greenfoot.playSound("wall-hit.wav");
+    }
+    }
 
     /**
      * Returns true if the ball is touching the ceiling.
@@ -72,6 +84,12 @@ public class Ball extends SmoothMover
     {
         return (getY() <= BALL_SIZE/2);
     }
+    private void playCeilingSound(){
+        if (isTouchingCeiling()){
+        
+        Greenfoot.playSound("ceiling-hit.wav");
+    }
+    }
 
     /**
      * Returns true if the ball is touching the floor.
@@ -79,6 +97,12 @@ public class Ball extends SmoothMover
     private boolean isTouchingFloor()
     { 
         return (getY() >= getWorld().getHeight() - BALL_SIZE/2);
+    }
+    private void playGameOverSound(){
+        if (isTouchingFloor()){
+        
+        Greenfoot.playSound("game-over.wav");
+    }
     }
 
     /**
@@ -164,10 +188,24 @@ public class Ball extends SmoothMover
         hasBouncedVertically = false;
         setRotation(Greenfoot.getRandomNumber(STARTING_ANGLE_WIDTH)+STARTING_ANGLE_WIDTH/2);
     }
+    private void levelUp(){
+    if ( bouncedCounter >= 10){
+            speed = speed +1;
+            bouncedCounter = 0;
+    }
+    }
     private void bounceOfPaddle(){
         if (isTouching(Paddle.class)){
+            if (!bounced) {
             revertVertically();
+            revertHorizontally();
+            bounced=true;
+            bouncedCounter ++;
         }
+        else {
+            bounced=false;
+    }
+}
         
     }
 

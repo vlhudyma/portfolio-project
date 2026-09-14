@@ -21,9 +21,14 @@ public class SelfPaddle extends Actor
     {
         this.width = width;
         this.height = height;
-        dx = 1;
         createImage();
-        
+        int direction = Greenfoot.getRandomNumber(2);
+            if(direction == 0){
+                dx = -1;
+            }
+            else{
+                dx = 1;
+            }
     }
     
     /**
@@ -44,8 +49,12 @@ public class SelfPaddle extends Actor
         // IF we are touching the right boundary OR we are touching the left boundary:
         if(getX() - width/2 > 450 || getX() + width/2 < 50)
         {
-            //Change our 'x' direction to the inverted direction:
-            setLocation(0,Greenfoot.getRandomNumber(350)+10);
+            if (dx == -1){
+                setLocation(500,Greenfoot.getRandomNumber(350)+10);
+            }
+            else{
+                setLocation(0,Greenfoot.getRandomNumber(350)+10);
+            }
         }
     }
 
