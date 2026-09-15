@@ -20,6 +20,7 @@ public class Ball extends SmoothMover
     private int delay;
     private boolean bounced = false;
     private int bouncedCounter = 0;
+    private int level = 1;
 
     /**
      * Contructs the ball and sets it in motion!
@@ -59,9 +60,13 @@ public class Ball extends SmoothMover
             playGameOverSound();
             checkRestart();
             bounceOfPaddle();
+            bounceOfSelfPaddle();
             levelUp();
         }
     }    
+    public void addedToWorld(World world){
+        getWorld().showText("Level: "+ level, 400,30);
+    }
 
     /**
      * Returns true if the ball is touching one of the side walls.
@@ -151,8 +156,7 @@ public class Ball extends SmoothMover
     {
         if (isTouchingFloor())
         {
-            init();
-            setLocation(getWorld().getWidth() / 2, getWorld().getHeight() / 2);
+             Greenfoot.setWorld(new GameOver());
         }
     }
 
@@ -188,25 +192,39 @@ public class Ball extends SmoothMover
         hasBouncedVertically = false;
         setRotation(Greenfoot.getRandomNumber(STARTING_ANGLE_WIDTH)+STARTING_ANGLE_WIDTH/2);
     }
-    private void levelUp(){
+    public void levelUp(){
     if ( bouncedCounter >= 10){
             speed = speed +1;
+            level++;
             bouncedCounter = 0;
+            Greenfoot.playSound("levelUp.wav");
+            getWorld().showText("Level: "+ level, 400,30);
     }
     }
     private void bounceOfPaddle(){
-        if (isTouching(Paddle.class)){
-            if (!bounced) {
-            revertVertically();
-            revertHorizontally();
-            bounced=true;
-            bouncedCounter ++;
+            if (isTouching(Paddle.class)){
+                if (!bounced && this.getRotation()<180) {
+                revertVertically();
+                //revertHorizontally();
+                bounced=true;
+                bouncedCounter ++;
+                Greenfoot.playSound("hitSound.wav");
+            } else {
+                bounced=false;
+            }
         }
-        else {
-            bounced=false;
     }
-}
-        
+    private void bounceOfSelfPaddle(){
+            if (isTouching(SelfPaddle.class)){
+                if (!bounced && this.getRotation()>180) {
+                revertVertically();
+                //revertHorizontally();
+                bounced=true;
+                bouncedCounter ++;
+                Greenfoot.playSound("hitSound.wav");
+            } else {
+                bounced=false;
+            }
+        }
     }
-
 }
