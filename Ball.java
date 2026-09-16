@@ -42,12 +42,6 @@ public class Ball extends SmoothMover
             bounceOfSelfPaddle();
             levelUp();
         }
-    }    
-    /**
-     * Displaying game level.
-     */
-    public void addedToWorld(World world){
-        getWorld().showText("Level: "+ level, 400,30);
     }
 
     /**
@@ -192,9 +186,12 @@ public class Ball extends SmoothMover
             level++;
             bouncedCounter = 0;
             Greenfoot.playSound("levelUp.wav");
-            getWorld().showText("Level: "+ level, 400,30);
+            
     }
+    PingWorld pingWorld = (PingWorld) this.getWorld();    
+    pingWorld.setStats(bouncedCounter, level);
     }
+
     /**
      * Check if the ball is bounced and its rotation less then 180. If that is true, the ball revert verically and bounced counter increase by 1. 
      */

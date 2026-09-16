@@ -2,4 +2,6 @@
 comment0.target=PingWorld
 comment1.params=gameStarted
 comment1.target=PingWorld(boolean)
-numComments=2
+comment2.params=level\ hits
+comment2.target=void\ setStats(int,\ int)
+numComments=3
