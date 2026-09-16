@@ -1,12 +1,5 @@
 import greenfoot.*;
 
-
-/**
- * A Ball is a thing that bounces of walls and paddles (or at least i should).
- * 
- * @author The teachers 
- * @version 1
- */
 public class Ball extends SmoothMover
 {
     private static final int BALL_SIZE = 25;
@@ -27,23 +20,9 @@ public class Ball extends SmoothMover
      */
     public Ball()
     {
-        createImage();
         init();
     }
 
-    /**
-     * Creates and sets an image of a black ball to this actor.
-     */
-    private void createImage()
-    {
-        GreenfootImage ballImage = new GreenfootImage(BALL_SIZE,BALL_SIZE);
-        setImage("ball-dark-red.jpg");
-    }
-
-    /**
-     * Act - do whatever the Ball wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act() 
     {
         if (delay > 0)
@@ -64,6 +43,9 @@ public class Ball extends SmoothMover
             levelUp();
         }
     }    
+    /**
+     * Displaying game level.
+     */
     public void addedToWorld(World world){
         getWorld().showText("Level: "+ level, 400,30);
     }
@@ -75,6 +57,9 @@ public class Ball extends SmoothMover
     {
         return (getX() <= BALL_SIZE/2 || getX() >= getWorld().getWidth() - BALL_SIZE/2);
     }
+    /**
+     * Play sound if touching.
+     */
     private void playWallSound(){
         if (isTouchingSides()){
         
@@ -89,6 +74,9 @@ public class Ball extends SmoothMover
     {
         return (getY() <= BALL_SIZE/2);
     }
+    /**
+     * Play sound if touching.
+     */
     private void playCeilingSound(){
         if (isTouchingCeiling()){
         
@@ -103,6 +91,9 @@ public class Ball extends SmoothMover
     { 
         return (getY() >= getWorld().getHeight() - BALL_SIZE/2);
     }
+    /**
+     * Play sound if touching.
+     */
     private void playGameOverSound(){
         if (isTouchingFloor()){
         
@@ -149,8 +140,8 @@ public class Ball extends SmoothMover
     }
 
     /**
-     * Check to see if the ball should be restarted.
-     * If touching the floor the ball is restarted in initial position and speed.
+     * Check to see if the ball is touching floor.
+     * If that is true, the screen changes to GameOver screen.
      */
     private void checkRestart()
     {
@@ -171,7 +162,7 @@ public class Ball extends SmoothMover
     }
 
     /**
-     * Bounces the bal back from a horizontal surface.
+     * Bounces the ball back from a horizontal surface.
      */
     private void revertVertically()
     {
@@ -192,6 +183,9 @@ public class Ball extends SmoothMover
         hasBouncedVertically = false;
         setRotation(Greenfoot.getRandomNumber(STARTING_ANGLE_WIDTH)+STARTING_ANGLE_WIDTH/2);
     }
+    /**
+     * Increase level every time when the ball bounced 10 times on the Paddle. When it reaches 10 times, speed grows by 1 and levelUp sound is played.
+     */
     public void levelUp(){
     if ( bouncedCounter >= 10){
             speed = speed +1;
@@ -201,11 +195,13 @@ public class Ball extends SmoothMover
             getWorld().showText("Level: "+ level, 400,30);
     }
     }
+    /**
+     * Check if the ball is bounced and its rotation less then 180. If that is true, the ball revert verically and bounced counter increase by 1. 
+     */
     private void bounceOfPaddle(){
             if (isTouching(Paddle.class)){
                 if (!bounced && this.getRotation()<180) {
                 revertVertically();
-                //revertHorizontally();
                 bounced=true;
                 bouncedCounter ++;
                 Greenfoot.playSound("hitSound.wav");
@@ -214,13 +210,14 @@ public class Ball extends SmoothMover
             }
         }
     }
+    /**
+     * Check if the ball is bounced and its rotation more then 180, than the ball revert. 
+     */
     private void bounceOfSelfPaddle(){
             if (isTouching(SelfPaddle.class)){
                 if (!bounced && this.getRotation()>180) {
                 revertVertically();
-                //revertHorizontally();
                 bounced=true;
-                bouncedCounter ++;
                 Greenfoot.playSound("hitSound.wav");
             } else {
                 bounced=false;

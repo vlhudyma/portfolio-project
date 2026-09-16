@@ -1,9 +1,8 @@
 #BlueJ class context
 comment0.target=IntroWorld
-comment0.text=\n\ Write\ a\ description\ of\ class\ IntroWorld\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
 comment1.params=
 comment1.target=IntroWorld()
-comment1.text=\n\ Constructor\ for\ objects\ of\ class\ IntroWorld.\n
 comment2.params=
 comment2.target=void\ act()
+comment2.text=\n\ \ \ \ The\ game\ will\ start\ if\ "enter"\ button\ is\ pressed.\ New\ PingWorld\ screen\ appeares\ instead\ of\ IntroWorld.\n
 numComments=3

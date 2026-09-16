@@ -1,12 +1,5 @@
 import greenfoot.*;
 
-
-/**
- * A paddle is an object that goes back and forth. Though it would be nice if balls would bounce of it.
- * 
- * @author The teachers 
- * @version 1
- */
 public class SelfPaddle extends Actor
 {
     private int width;
@@ -21,7 +14,6 @@ public class SelfPaddle extends Actor
     {
         this.width = width;
         this.height = height;
-        createImage();
         int direction = Greenfoot.getRandomNumber(2);
             if(direction == 0){
                 dx = -1;
@@ -32,21 +24,21 @@ public class SelfPaddle extends Actor
     }
     
     /**
-     * Act - do whatever the Paddle wants to do. This method is called whenever
+     * Act - do whatever the SelfPaddle wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() 
     {
-        tryChangeDirection();
+        oppositeRestart();
         setLocation(getX() + dx, getY());
     }    
     /**
-     * Will rotate the paddle 180 degrees if the paddle is at worlds edge.
+     * Whenever the SelfPaddle touching right or left boundaries, it starts on the opposite side.
      */
-    private void tryChangeDirection()
+    private void oppositeRestart()
     {
-        //Check to see if we are touching the outer boundaries of the world:
-        // IF we are touching the right boundary OR we are touching the left boundary:
+        //Check to see if we are touching left or right boundaries.
+        // If SelfPaddle touch the left side, it appears on the right side.
         if(getX() - width/2 > 450 || getX() + width/2 < 50)
         {
             if (dx == -1){
@@ -56,16 +48,6 @@ public class SelfPaddle extends Actor
                 setLocation(0,Greenfoot.getRandomNumber(350)+10);
             }
         }
-    }
-
-    /**
-     * Creates and sets an image for the paddle, the image will have the same dimensions as the paddles 
-width and height.
-     */
-    private void createImage()
-    {
-        GreenfootImage image = new GreenfootImage(width, height);
-        setImage("paddle-orange.jpg");
     }
 
 }
